@@ -393,14 +393,6 @@ for i = 1:parts
     end
 end
 
-%
-peaks_index_intergrated = cell(1,nrois);
-for i = 1:parts 
-    for j = 1:nrois
-    peaks_index_intergrated{j} = [peaks_index_intergrated{j} ;peaks_index{i,j}+(i-1)*(step_frame+1)];
-    end
-end
-
 binsize = 500;
 fullpeaksarray = zeros(size(traces_corrected));
 for i = 1:size(peaks_index_intergrated,2)
