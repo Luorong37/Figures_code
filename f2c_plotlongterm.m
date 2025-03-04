@@ -394,6 +394,12 @@ for i = 1:parts
 end
 
 %
+peaks_index_intergrated = cell(1,nrois);
+for i = 1:parts 
+    for j = 1:nrois
+    peaks_index_intergrated{j} = [peaks_index_intergrated{j} ;peaks_index{i,j}+(i-1)*(step_frame+1)];
+    end
+end
 
 binsize = 500;
 fullpeaksarray = zeros(size(traces_corrected));
@@ -403,12 +409,11 @@ for i = 1:size(peaks_index_intergrated,2)
         fullpeaksarray(currentpeaks(j),i) = 1;
     end
 end
-binarray = fullpeaksarray(1:floor(size(traces_corrected,1)/binsize)*binsize,:);
-binarray = reshape(binarray,size(traces_corrected,2),binsize,[]);
-binarray = sum(binarray,2);
-binarray = squeeze(binarray);
-% binarray(binarray ~= 0) = binarray(binarray ~= 0)*2;
-% binarray(binarray == 0) = -255;
+binnum = floor(size(traces_corrected,1)/binsize);
+binarray = fullpeaksarray(1:binnum*binsize,:);
+binarray = reshape(binarray,binsize,binnum,size(traces_corrected,2));
+binarray = sum(binarray,1);
+binarray = squeeze(binarray)';
 
 % 生成示例矩阵（包含0和正整数）
 
